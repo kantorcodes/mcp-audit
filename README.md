@@ -36,7 +36,7 @@ But security hasn't kept pace:
 - **30% of the top 50 MCP servers have High or Critical vulnerabilities** — based on our scan of the most popular public servers
 - **296 security findings** across just 50 servers — averaging **5.9 per server**, with **22% shipping hardcoded credentials**
 - **30 CVE in 60 days** — Q1 2026 saw an explosion of MCP-related vulnerabilities
-- **OWASP published the [MCP Top 10](https://owasp.org/www-project-machine-learning-security-top-10/)** — a dedicated attack surface taxonomy for AI tool integrations
+- **OWASP's [MCP Top 10](https://owasp.org/www-project-mcp-top-10/)**: an MCP-specific risk taxonomy currently described by its maintainers as a beta release
 - **Zero dedicated tooling** existed at the developer/SMB level for MCP security auditing
 
 Every `claude_desktop_config.json` or `.mcp.json` you commit is a potential attack surface: hardcoded API keys, shell injection vectors, overly broad filesystem access, unverified server sources. One misconfigured MCP server can expose your entire system.
@@ -158,7 +158,7 @@ mcp-audit init
 
 | Feature | Description |
 |---------|-------------|
-| **19 Security Rules** | Comprehensive coverage of every OWASP MCP Top 10 category and beyond — from tool poisoning to excessive tool permissions |
+| **19 Security Rules** | Project-specific configuration checks for risks such as tool poisoning, insecure dependencies, and excessive permissions |
 | **Auto-detection** | Automatically finds `claude_desktop_config.json`, `.mcp.json`, and platform-specific config paths |
 | **4 Output Formats** | Human-readable table, JSON, Markdown, and SARIF — use the right format for every context |
 | **GitHub Code Scanning** | Native SARIF output with a ready-to-use GitHub Action for seamless CI/CD integration |
@@ -171,7 +171,7 @@ mcp-audit init
 
 ## Security Rules
 
-MCP Audit implements **19 security rules** covering all OWASP MCP Top 10 categories and beyond, with **40+ individual detection patterns**:
+MCP Audit lists **19 project-specific security rules**, with **40+ individual detection patterns**. These rule identifiers are not OWASP MCP Top 10 category numbers: the scanner's `MCP-01` checks tool poisoning, while [OWASP MCP01](https://owasp.org/www-project-mcp-top-10/) describes token mismanagement and secret exposure.
 
 | Rule | Name | Severity | What It Detects |
 |:----:|------|:--------:|-----------------|
@@ -266,7 +266,7 @@ mcp-audit scan --source .mcp.json --severity high
 | **Catches typosquatting** (`modeicontextprotocol` vs `modelcontextprotocol`) | Easily missed | Automatic |
 | **Detects 40+ secret patterns** (`sk-`, `ghp_`, `AKIA`, Bearer tokens...) | Tedious, error-prone | Instant |
 | **Runs in CI on every PR** | Requires discipline | Set-and-forget |
-| **OWASP MCP Top 10 coverage** | Requires expertise | Built-in |
+| **Configuration checks for MCP risks** | Manual inspection | Built-in project-specific rules |
 | **Catches shell injection vectors** (`sh -c`, `;`, `&&`, backticks) | Easy to overlook | Pattern-matched |
 | **SARIF output for GitHub Security tab** | Not possible | Native |
 | **Consistent across team members** | Varies by reviewer | Deterministic |
@@ -397,7 +397,7 @@ by the Free Software Foundation, either version 3 of the License, or
 ## Links
 
 - [Rules Reference](docs/rules-reference.md) — detailed documentation for all 19 rules
-- [OWASP MCP Top 10](https://owasp.org/www-project-machine-learning-security-top-10/) — the standard we implement
+- [OWASP MCP Top 10](https://owasp.org/www-project-mcp-top-10/): external reference taxonomy; scanner rules use different identifiers
 - [Model Context Protocol](https://modelcontextprotocol.io/) — official MCP specification
 - [Report an Issue](https://github.com/Norbi0801/mcp-audit/issues) — bugs, feature requests, questions
 
